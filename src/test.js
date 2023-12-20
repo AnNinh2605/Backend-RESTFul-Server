@@ -12,6 +12,10 @@ const hostname = process.env.HOST_NAME;
 // config template engine
 configViewEngine(app);
 
+//config request.body
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded 
+
 //route
 app.use('/', webRoutes)
 
