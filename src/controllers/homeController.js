@@ -1,5 +1,6 @@
+const { json } = require('express');
 const connection = require('../config/database')
-const { get_all_users } = require('../services/CRUD_services')
+const { get_all_users, getUserByID, updateUserByID, deleteUserById } = require('../services/CRUD_services')
 
 const homeController = async(req, res) => {
     let results = await get_all_users();
@@ -36,8 +37,41 @@ const create_user = async (req, res) => {
     res.send("Create successful");
 }
 
-const edit_user = (req, res) => {
-    res.render('editUsers.ejs')
+const update_user = async (req, res) => {
+    let email = req.body.email;
+    let name = req.body.name;
+    let city = req.body.city;
+    let userID = req.body.id;
+    // with placeholder
+    // connection.query(
+    //     `INSERT INTO Users (email, name, city)
+    //     VALUES (?, ?, ?)`,
+    //     [email, name, city],
+    //     function (err, results) {
+    //         console.log(results);
+    //         res.send('Create user successful')
+    //     }
+    // );
+
+    await updateUserByID(email, name, city, userID);
+    res.redirect('/');
+}
+
+const edit_user = async(req, res) => {
+    let getUserID = req.params.id;
+    let result = await getUserByID(getUserID);
+    res.render('editUsers.ejs', {user : result});
+}
+
+const delete_user = async(req, res) => {
+    let getUserID = req.params.id;
+    let result = await getUserByID(getUserID);
+    res.render('deleteUser.ejs', {user : result})
+}
+const confirm_delete_user = async(req, res) => {
+    let getUserByID = req.body.id;
+    await deleteUserById(getUserByID);
+    res.redirect('/');
 }
 module.exports = {
     homeController,
@@ -45,5 +79,8 @@ module.exports = {
     staticfile,
     create_user,
     create, 
-    edit_user
+    edit_user,
+    update_user,
+    delete_user, 
+    confirm_delete_user
 }

@@ -9,13 +9,13 @@
 <body>
     <div class="topnav">
         <a href="/">Home</a>
-        <a href="create">Create Users</a>
+        <a href="create">Delete User</a>
     </div>
 
     <div class="form">
-        <form action="/update_user" method="post">
+        <form action="/delete_user" method="post">
             <fieldset class="form_Add_Users">
-                <legend>Edit user</legend>
+                <legend>Delete user</legend>
             <div class="input input_hidden">
                 <label for="l_id">ID</label><br>
                 <input type="text" id="l_id" name="id" value="<%= user.id %>">
@@ -27,12 +27,8 @@
             <div class="input">
                 <label for="fname">Email</label><br>
                 <input type="email" id="fname" name="email" value="<%= user.email %>">
-            </div>    
-            <div class="input">
-                <label for="lname">City</label><br>
-                <input type="text" id="lname" name="city" value="<%= user.city %>">
-            </div>  
-            <button class="create_submit_button"> Submit </button>
+            </div>      
+            <button class="create_submit_button"> Confirm </button>
             </fieldset>
         </form>
     </div>

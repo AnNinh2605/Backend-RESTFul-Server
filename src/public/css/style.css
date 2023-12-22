@@ -53,6 +53,10 @@
   cursor: pointer;
 }
 
+.input_hidden{
+  display: none;
+}
+
 /* table */
 .table_h1{
   margin:10px 0px 10px 35px;

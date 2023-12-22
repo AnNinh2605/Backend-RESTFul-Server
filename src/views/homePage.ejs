@@ -40,8 +40,10 @@
                     <%= row.city %>
                 </td>
                 <td>
-                    <a href="/edit_user">Edit</a>
-                    <button id="delete_button">Delete</button>
+                    <a href="/edit_user/<%= row.id %>">Edit</a>
+                    <form action="/delete_user/<%= row.id %>" method="POST">
+                        <button id="delete_button">Delete</button>
+                    </form>
                 </td>
             </tr>
             <% }); %>
