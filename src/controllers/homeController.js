@@ -20,17 +20,6 @@ const create_user = async (req, res) => {
     let name = req.body.name;
     let city = req.body.city;
 
-    // with placeholder
-    // connection.query(
-    //     `INSERT INTO Users (email, name, city)
-    //     VALUES (?, ?, ?)`,
-    //     [email, name, city],
-    //     function (err, results) {
-    //         console.log(results);
-    //         res.send('Create user successful')
-    //     }
-    // );
-    
     let [rows, fields] = await connection.query(`INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
             [email, name, city])
     console.log("check infor: ", rows);
@@ -42,17 +31,7 @@ const update_user = async (req, res) => {
     let name = req.body.name;
     let city = req.body.city;
     let userID = req.body.id;
-    // with placeholder
-    // connection.query(
-    //     `INSERT INTO Users (email, name, city)
-    //     VALUES (?, ?, ?)`,
-    //     [email, name, city],
-    //     function (err, results) {
-    //         console.log(results);
-    //         res.send('Create user successful')
-    //     }
-    // );
-
+    
     await updateUserByID(email, name, city, userID);
     res.redirect('/');
 }
