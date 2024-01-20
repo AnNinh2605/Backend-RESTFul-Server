@@ -2,8 +2,10 @@ const { json } = require('express');
 const connection = require('../config/database')
 const { get_all_users, getUserByID, updateUserByID, deleteUserById } = require('../services/CRUD_services')
 
+const User = require('../models/users');
+
 const homeController = async(req, res) => {
-    let results = await get_all_users();
+    let results = await User.find({});
     return res.render('homePage.ejs', {rows: results});
 }
 const abc = (req, res) => {
@@ -20,10 +22,17 @@ const create_user = async (req, res) => {
     let name = req.body.name;
     let city = req.body.city;
 
-    let [rows, fields] = await connection.query(`INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
-            [email, name, city])
-    console.log("check infor: ", rows);
+    await User.create({
+        email: email,
+        name: name,
+        city: city
+    })
+    // let [rows, fields] = await connection.query(`INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
+    //         [email, name, city])
+    // console.log("check infor: ", rows);
+
     res.send("Create successful");
+
 }
 
 const update_user = async (req, res) => {

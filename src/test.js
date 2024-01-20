@@ -9,8 +9,6 @@ const app = express()
 const port = process.env.PORT || 8101;
 const hostname = process.env.HOST_NAME;
 
-const mongoose = require('mongoose');
-
 // config template engine
 configViewEngine(app);
 
@@ -20,13 +18,6 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 
 //route
 app.use('/', webRoutes);
-
-const kittySchema = new mongoose.Schema({
-  name: String
-});
-const Kitten = mongoose.model('Kitten', kittySchema); // xuất ra biến bằng hàm model// tên folder
-const fluffy = new Kitten({ name: 'fluffy' }); // tạo ở database
-fluffy.save();
 
 // conection to mongoDB
 (async() => {
