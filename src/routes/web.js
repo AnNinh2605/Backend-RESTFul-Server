@@ -11,6 +11,6 @@ const { homeController, abc, staticfile, create_user, create, edit_user, update_
     router.post('/update_user', update_user);
     router.post('/delete_user/:id', delete_user);
     router.post('/delete_user', confirm_delete_user);
-    router.get('/edit_user/:id', edit_user);
+    router.post('/edit_user/:id', edit_user);
 
 module.exports = router

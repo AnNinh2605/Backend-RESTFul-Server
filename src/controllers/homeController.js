@@ -27,11 +27,7 @@ const create_user = async (req, res) => {
         name: name,
         city: city
     })
-    // let [rows, fields] = await connection.query(`INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
-    //         [email, name, city])
-    // console.log("check infor: ", rows);
-
-    res.send("Create successful");
+    res.redirect('/');
 
 }
 
@@ -40,25 +36,25 @@ const update_user = async (req, res) => {
     let name = req.body.name;
     let city = req.body.city;
     let userID = req.body.id;
-    
-    await updateUserByID(email, name, city, userID);
+    await User.updateOne({_id: userID}, { email: email, name: name, city: city })
+
     res.redirect('/');
 }
 
 const edit_user = async(req, res) => {
     let getUserID = req.params.id;
-    let result = await getUserByID(getUserID);
+    let result = await User.findById(getUserID).exec();
     res.render('editUsers.ejs', {user : result});
 }
 
 const delete_user = async(req, res) => {
     let getUserID = req.params.id;
-    let result = await getUserByID(getUserID);
+    let result = await User.findById(getUserID).exec();
     res.render('deleteUser.ejs', {user : result})
 }
 const confirm_delete_user = async(req, res) => {
     let getUserByID = req.body.id;
-    await deleteUserById(getUserByID);
+    await User.deleteOne({_id: getUserByID});
     res.redirect('/');
 }
 module.exports = {
