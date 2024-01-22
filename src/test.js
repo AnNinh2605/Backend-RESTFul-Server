@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path');
 const configViewEngine = require('./config/viewEngine');
 const webRoutes = require('./routes/web')
+const apiRoutes = require('./routes/api')
 const connection = require('./config/database');
 // import express form 'express';
 const app = express()
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 
 //route
 app.use('/', webRoutes);
+app.use('/v1/api/', apiRoutes);
 
 // conection to mongoDB
 (async() => {
