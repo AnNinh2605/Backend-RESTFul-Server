@@ -28,7 +28,6 @@ const create_user = async (req, res) => {
         city: city
     })
     res.redirect('/');
-
 }
 
 const update_user = async (req, res) => {

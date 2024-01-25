@@ -1,5 +1,5 @@
 const User = require('../models/users');
-const { uploadSingleFil, uploadMultipleFile } = require('../services/fileService')
+const { uploadSingleFile, uploadMultipleFile } = require('../services/fileService')
 
 const getUsersAPI = async (req, res) => {
     let results = await User.find({});

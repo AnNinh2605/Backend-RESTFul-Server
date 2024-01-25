@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoose_delete = require('mongoose-delete');
 
 const CustomerSchema = new mongoose.Schema({
     name: {
@@ -12,6 +13,9 @@ const CustomerSchema = new mongoose.Schema({
     description: String
 },
     { timestamps: true });
+
+CustomerSchema.plugin(mongoose_delete,  { overrideMethods: 'all' });
+
 const Customer = mongoose.model('Customer', CustomerSchema); // tạo object // tạo collection
 
 module.exports = Customer;
