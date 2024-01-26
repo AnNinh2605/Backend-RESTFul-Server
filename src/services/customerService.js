@@ -1,6 +1,6 @@
 const Customer = require('../models/customer');
 
-const createCustomerService = async(customerData) => {
+const createCustomerService = async (customerData) => {
     try {
         let results = await Customer.create({
             email: customerData.email,
@@ -27,20 +27,27 @@ const createCustomerArrayService = async (data) => {
     }
 }
 
-const getAllCustomerService = async() => {
+const getAllCustomerService = async (filter, limit, page) => {
+    let skip = (page - 1) * limit;
+    let results = null;
     try {
-        let results = await Customer.find({});
+        if (limit && page) {
+            results = await Customer.find(filter).skip(skip).limit(limit).exec();
+        }
+        else {
+            results = await Customer.find({});
+        }
         return results;
     } catch (e) {
-       console.log("Error", e);
-       return null;
+        console.log("Error", e);
+        return null;
     }
 }
 
 const updateCustomerService = async (id, name, email, city, phone, description) => {
     try {
         let results = await Customer.updateOne(
-            {_id: id}, 
+            { _id: id },
             { name: name, city: city, email: email, phone: phone, description: description });
         return results;
     } catch (e) {
