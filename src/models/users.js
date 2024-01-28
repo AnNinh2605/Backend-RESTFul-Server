@@ -5,6 +5,6 @@ const userSchema = new mongoose.Schema({
     email: String,
     city: String
 }); // schema tạo dự liệu 
-const Users = mongoose.model('Users', userSchema); // tạo object // tạo collection
+const Users = mongoose.model('user', userSchema); // tạo object // tạo collection
 
 module.exports = Users;

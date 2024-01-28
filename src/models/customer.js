@@ -16,6 +16,6 @@ const CustomerSchema = new mongoose.Schema({
 
 CustomerSchema.plugin(mongoose_delete,  { overrideMethods: 'all' });
 
-const Customer = mongoose.model('Customer', CustomerSchema); // tạo object // tạo collection
+const Customer = mongoose.model('customer', CustomerSchema); // tạo object // tạo collection
 
 module.exports = Customer;
