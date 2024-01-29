@@ -1,6 +1,5 @@
-const { createProjectService, getProjectService } = require('../services/projectService')
 
-const aqp = require('api-query-params');
+const { createProjectService, getProjectService, deleteProjectService, updateProjectService } = require('../services/projectService')
 
 module.exports = {
     postCreateProjectsAPI: async (req, res) => {
@@ -12,12 +11,23 @@ module.exports = {
         })
     }, 
     getProjectsAPI: async (req, res) => {
-        const { filter, limit } = aqp(req.query);
-        let populate = req.query.populate;
-        let page = filter.page;
-        delete filter.page;
-        let results = await getProjectService(filter, limit, page, populate);
+        let results = await getProjectService(req.query);
         // console.log(results);
+        return res.status(200).json({
+            error: 0,
+            data: results
+        })
+    },
+    deleteProjectsAPI: async(req, res) => {
+        let id = req.query.id;
+        let results = await deleteProjectService(id);
+        return res.status(200).json({
+            error: 0,
+            data: results
+        })
+    }, 
+    putProjectsAPI: async(req, res) => {
+        let results = await updateProjectService(req.body);
         return res.status(200).json({
             error: 0,
             data: results
