@@ -2,31 +2,56 @@ const { uploadSingleFile } = require('../services/fileService')
 const { createCustomerService, createCustomerArrayService, getAllCustomerService, updateCustomerService, deleteCustomer, deleteCustomersArray } = require('../services/customerService')
 
 const aqp = require('api-query-params');
+const Joi = require('joi');
 
 module.exports = {
     postCreateCustomersAPI: async (req, res) => {
         let { name, email, city, phone, description } = req.body;
-        let imageUrl = "";
-        if (!req.files || Object.keys(req.files).length === 0) {
 
+        //validate với joi
+        const schema = Joi.object({
+            name: Joi.string()
+                .alphanum()
+                .min(3)
+                .max(30)
+                .required(),
+            city: Joi.string(),
+            phone: Joi.string()
+                .regex(/^[0-9]{8,11}$/),
+            description: Joi.string(),
+            email: Joi.string()
+                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        })
+        //validate với joi//
+
+        let { error } = schema.validate(req.body, { abortEarly: false });
+        if (error) {
+            return res.status(200).json({
+                data: error
+            })
         }
         else {
-            let results = await uploadSingleFile(req.files.image);
-            imageUrl = results.path;
+            let imageUrl = "";
+            if (!req.files || Object.keys(req.files).length === 0) {
+            }
+            else {
+                let results = await uploadSingleFile(req.files.image);
+                imageUrl = results.path;
+            }
+            let customerData = {
+                name,
+                email,
+                city,
+                phone,
+                description,
+                image: imageUrl
+            }
+            let results = await createCustomerService(customerData);
+            return res.status(200).json({
+                error: 0,
+                data: results
+            })
         }
-        let customerData = {
-            name,
-            email,
-            city,
-            phone,
-            description,
-            image: imageUrl
-        }
-        let results = await createCustomerService(customerData);
-        return res.status(200).json({
-            error: 0,
-            data: results
-        })
     },
     // create many customer in a time or from a data file
     postCreateCustomersArrayAPI: async (req, res) => {
