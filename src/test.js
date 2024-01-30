@@ -34,18 +34,18 @@ app.use('/v1/api/', apiRoutes);
 
     // using mongodb driver
     // Connection URL
-    const url = process.env.DB_HOST_MONGODBDRIVER;
-    const client = new MongoClient(url);
-    // Database Name
-    const dbName = process.env.DB_DATABASE;
-    // Use connect method to connect to the server
-    async function main() {
-      await client.connect();
-      console.log('Connected successfully to server');
-      const db = client.db(dbName);
-      const collection = db.collection('documents');
-    }
-    main();
+    // const url = process.env.DB_HOST_MONGODBDRIVER;
+    // const client = new MongoClient(url);
+    // // Database Name
+    // const dbName = process.env.DB_DATABASE;
+    // // Use connect method to connect to the server
+    // async function main() {
+    //   await client.connect();
+    //   console.log('Connected successfully to server');
+    //   const db = client.db(dbName);
+    //   const collection = db.collection('documents');
+    // }
+    // main();
 
     app.listen(port, hostname, () => {
       console.log(`Backend mongoDB listening on port ${port}`)
