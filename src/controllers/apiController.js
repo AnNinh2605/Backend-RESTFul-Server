@@ -8,6 +8,7 @@ const getUsersAPI = async (req, res) => {
         data: results
     })
 }
+
 const postCreateUsersAPI = async (req, res) => {
     let email = req.body.email;
     let name = req.body.name;
@@ -23,6 +24,7 @@ const postCreateUsersAPI = async (req, res) => {
         data: results
     })
 }
+
 const putUpdateUsersAPI = async (req, res) => {
     let email = req.body.email;
     let name = req.body.name;
@@ -43,6 +45,7 @@ const deleteUsersAPI = async (req, res) => {
         data: results
     })
 }
+
 const postUploadFileAPI = async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');

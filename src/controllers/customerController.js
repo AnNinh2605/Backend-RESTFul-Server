@@ -103,6 +103,7 @@ module.exports = {
             })
         }
     },
+
     deleteCustomersAPI: async (req, res) => {
         let id = req.body.id;
         let results = await deleteCustomer(id);
@@ -119,6 +120,7 @@ module.exports = {
             })
         }
     },
+    
     deleteCustomersArrayAPI: async (req, res) => {
         let data = req.body.customersId;
         let results = await deleteCustomersArray(data);

@@ -6,6 +6,7 @@ const createTaskService = async (data) => {
         if (data.type === "EMPTY-TASK"){
             results = await Task.create(data);
         }
+        console.log("check results: ", results);
         return results;
     } catch (e) {
         console.log("Error", e);

@@ -1,4 +1,4 @@
-const connection = require('../config/database')
+/*const connection = require('../config/database')
 
 const get_all_users = async() => {
     let [rows, fields] = await connection.query('SELECT * FROM Users');
@@ -22,4 +22,4 @@ const deleteUserById = async(id) => {
 }
 module.exports = {
     get_all_users, getUserByID, updateUserByID, deleteUserById
-}
+}*/

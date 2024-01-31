@@ -1,15 +1,47 @@
-const aqp = require('api-query-params');
-const { createTaskService, UpdateTaskService, getTaskService, deleteTaskService  } = require('../services/taskService')
+const { createTaskService, UpdateTaskService, getTaskService, deleteTaskService } = require('../services/taskService')
 
-module.exports = { 
-    postCreateTasksAPI: async(req, res) => {
-        let results = await createTaskService(req.body);
-        return res.status(200).json({
-            error: 0,
-            data: results
+const aqp = require('api-query-params');
+const Joi = require('joi');
+
+module.exports = {
+    postCreateTasksAPI: async (req, res) => {
+        let { name, description, startDate, endDate } = req.body;
+
+        //validate với joi
+        const schema = Joi.object({
+            name: Joi.string()
+                .alphanum()
+                .min(3)
+                .max(30)
+                .required(),
+            description: Joi.string(),
+            startDate: Joi.number()
+                .integer()
+                .min(1900)
+                .max(2013),
+            endDate: Joi.number()
+                .integer()
+                .min(1900)
+                .max(2013)
         })
-    }, 
-    getCreateTasksAPI: async(req, res) => {
+        //validate với joi//
+
+        let { error } = schema.validate( { name, description, startDate, endDate}, { abortEarly: false });
+        if (error) {
+            return res.status(200).json({
+                data: error
+            })
+        }
+        else {
+            let results = await createTaskService(req.body);
+            return res.status(200).json({
+                error: 0,
+                data: results
+            })
+        }
+    },
+
+    getCreateTasksAPI: async (req, res) => {
         const { filter, limit } = aqp(req.query);
         let populate = req.query.populate;
         let page = filter.page;
@@ -26,14 +58,16 @@ module.exports = {
             data: results
         })
     },
-    putCreateTasksAPI: async(req, res) => {
+    
+    putCreateTasksAPI: async (req, res) => {
         let results = await UpdateTaskService(req.body);
         return res.status(200).json({
             error: 0,
             data: results
         })
-    }, 
-    deleteCreateTasksAPI: async(req, res) => {
+    },
+    
+    deleteCreateTasksAPI: async (req, res) => {
         let id = req.query.id;
         let results = await deleteTaskService(id);
         return res.status(200).json({
