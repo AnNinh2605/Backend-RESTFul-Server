@@ -75,4 +75,5 @@ const deleteCustomersArray = async (data) => {
         return null;
     }
 }
+
 module.exports = { createCustomerService, createCustomerArrayService, getAllCustomerService, updateCustomerService, deleteCustomer, deleteCustomersArray }
