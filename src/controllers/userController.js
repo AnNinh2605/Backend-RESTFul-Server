@@ -1,8 +1,29 @@
 const User = require('../models/users');
 const { uploadSingleFile, uploadMultipleFile } = require('../services/fileService')
 
+const aqp = require('api-query-params');
+const Joi = require('joi');
+
 const getUsersAPI = async (req, res) => {
-    let results = await User.find({});
+    let { filter, limit } = aqp(req.query);
+    let page = filter.page;
+    delete filter.page;
+    let skip = (page - 1) * limit;
+    let results = null;
+    try {
+        if (limit && page) {
+            results = await User
+                .find(filter)
+                .skip(skip)
+                .limit(limit)
+                .exec();
+        }
+        else {
+            results = await User.find({});
+        }
+    } catch (e) {
+        console.log("Error ", e);
+    }
     return res.status(200).json({
         errorCode: 0,
         data: results
@@ -10,19 +31,37 @@ const getUsersAPI = async (req, res) => {
 }
 
 const postCreateUsersAPI = async (req, res) => {
-    let email = req.body.email;
-    let name = req.body.name;
-    let city = req.body.city;
+    // let { email, name, city } = req.body;
 
-    let results = await User.create({
-        email: email,
-        name: name,
-        city: city
+    const schema = Joi.object({
+        name: Joi.string()
+            .alphanum()
+            .min(3)
+            .max(30)
+            .required(),
+
+        email: Joi.string()
+            .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+        city: Joi.string()
     })
-    return res.status(200).json({
-        errorCode: 0,
-        data: results
-    })
+    let { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+        return res.status(200).json({
+            data: error
+        })
+    }
+    else {
+        let results;
+        try {
+            results = await User.create({...req.body})
+        } catch (e) {
+            console.log("Error ", e)
+        }
+        return res.status(200).json({
+            errorCode: 0,
+            data: results
+        })
+    }
 }
 
 const postCreateUsersArrayAPI = async (req, res) => {
